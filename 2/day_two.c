@@ -6,26 +6,33 @@ int number(char string[11]);
 int main() {
   FILE * file = fopen("input.txt", "r");
   char string[11], direction;
-  int y = 0, x = 0;
+  int y = 0, x = 0, aim = 0;
 
   while(fgets(string, 11, file) != NULL) {
     direction = string[0];
     int count = number(string);
+    int product = 0;
 
     if(direction == 'f') {
+      /* It increases your horizontal position by X units. */
       x += count;
+      /* It increases your depth by your aim multiplied by X */
+      product = count * aim;
+      y += product;
     }
     if(direction == 'u') {
-      y += count;
+      /* up subtracts, since we are counting depth */
+      aim -= count;
     }
     if(direction == 'd') {
-      y -= count;
+      /* down adds, since we are counting depth */
+      aim += count;
     }
   }
   printf("**************** \n");
-  printf("%d \n", y);
-  printf("%d \n", x);
-  printf("%d", x * y);
+  printf("final depth: %d \n", y);
+  printf("final horizontal: %d \n", x);
+  printf("product: %d", x * y);
   printf("**************** \n");
   fclose(file);
 }
